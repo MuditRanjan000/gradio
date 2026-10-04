@@ -406,6 +406,17 @@ describe("Props: allow_tags", () => {
 		const bot = getAllByTestId("bot")[0];
 		expect(bot.textContent).toContain("deep thought");
 	});
+
+	test("custom HTML tags with underscores are preserved when allow_tags is true", async () => {
+		const { getAllByTestId } = await render(Chatbot, {
+			...default_props,
+			allow_tags: true,
+			value: [text_msg("assistant", "<tool_call>call fn</tool_call>", 0)]
+		});
+
+		const bot = getAllByTestId("bot")[0];
+		expect(bot.innerHTML).toContain("tool_call");
+	});
 });
 
 describe("Props: autoscroll", () => {
